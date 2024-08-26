@@ -33,7 +33,7 @@ function fetchAndDisplayWeather() {
 
   if (city) {
     fetch(
-      `http://api.weatherapi.com/v1/current.json?key=edf9f4428bdb45a7a18190419242608&q=${city}`
+      `https://api.weatherapi.com/v1/current.json?key=edf9f4428bdb45a7a18190419242608&q=${city}`
     )
       .then((response) => response.json())
       .then((data) => {
