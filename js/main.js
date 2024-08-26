@@ -26,36 +26,41 @@
 // searchButton.addEventListener("click", fetchAndDisplayWeather);
 // Function to fetch and display weather information
 // Function to fetch and display weather information
-function fetchAndDisplayWeather() {
+async function fetchAndDisplayWeather() {
   const city = document.getElementById("city").value;
   const cityWeather = document.getElementById("cityWeather");
   cityWeather.innerHTML = "";
 
   if (city) {
-    fetch(
-      `https://api.weatherapi.com/v1/current.json?key=edf9f4428bdb45a7a18190419242608&q=${city}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          cityWeather.innerHTML = `<p>${data.error.message}</p>`;
-        } else {
-          const weatherItem = document.createElement("div");
-          weatherItem.className = "weather-item";
-          weatherItem.innerHTML = `
-              <h4>${data.location.name}, ${data.location.region}</h4>
-              <p>Temperature: ${data.current.temp_c}°C</p>
-              <p>Condition: ${data.current.condition.text}</p>
-              <img src="${data.current.condition.icon}" alt="${data.current.condition.text}">
-            `;
+    try {
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/current.json?key=edf9f4428bdb45a7a18190419242608&q=${city}`
+      );
 
-          cityWeather.appendChild(weatherItem);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching the weather data:", error);
-        cityWeather.innerHTML = `<p>Failed to fetch weather data. Please try again.</p>`;
-      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      if (data.error) {
+        cityWeather.innerHTML = `<p>${data.error.message}</p>`;
+      } else {
+        const weatherItem = document.createElement("div");
+        weatherItem.className = "weather-item";
+        weatherItem.innerHTML = `
+            <h4>${data.location.name}, ${data.location.region}</h4>
+            <p>Temperature: ${data.current.temp_c}°C</p>
+            <p>Condition: ${data.current.condition.text}</p>
+            <img src="${data.current.condition.icon}" alt="${data.current.condition.text}">
+          `;
+
+        cityWeather.appendChild(weatherItem);
+      }
+    } catch (error) {
+      console.error("Error fetching the weather data:", error);
+      cityWeather.innerHTML = `<p>Failed to fetch weather data. Please try again.</p>`;
+    }
   } else {
     cityWeather.innerHTML = `<p>Please enter a city name.</p>`;
   }
