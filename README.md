@@ -1,2 +1,2 @@
 # Weather-App-goitsy
-A simple weather app utilizing  an API .
+A simple weather app utilizing  a weather API .
