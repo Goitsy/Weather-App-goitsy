@@ -34,7 +34,7 @@ async function fetchAndDisplayWeather() {
   if (city) {
     try {
       const response = await fetch(
-        `https://api.weatherapi.com/v1/current.json?key=edf9f4428bdb45a7a18190419242608&q=${city}`
+        `https://api.weatherapi.com/v1/current.json?key=b362e266b43f417ab5b151700240211&q=${city}`
       );
 
       if (!response.ok) {
